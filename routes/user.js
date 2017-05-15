@@ -85,8 +85,7 @@ exports.getAllProducts = function(req,res){
 exports.getProfile = function(req,res){
 	console.log(req.session.email);
 	mysql.handle_database(function(connection) {
-		
-        connection.query("select * from customer c inner join address a on c.AddressID = a.AddressID and CustomerID = ?", [req.session.CustomerID], function(err, rows) {
+    connection.query("select * from customer c inner join address a on c.AddressID = a.AddressID and CustomerID = ?", [req.session.CustomerID], function(err, rows) {
             connection.release();
             if (!err) {
                 if (rows.length > 0) {
@@ -161,7 +160,7 @@ exports.placeOrder = function(req,res){
     let CustomerID = req.session.CustomerID;
     let AddressID = req.session.AddressID;
 	var products = req.param("products");
-    let invoice = Math.floor(Math.random()*100);
+    let invoice = new Date().getTime();
     let date = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
     let values = [];
     for(var i=0;i<products.length;i++){
@@ -206,6 +205,45 @@ exports.placeOrder = function(req,res){
         });
     });
 };
+
+exports.myOrders = function(req,res){
+    let CustomerID = req.session.CustomerID;
+    mysql.handle_database(function(connection) {
+        connection.query("select * from `order` where `CustomerId` = ?", [CustomerID], function(err, rows) {
+            connection.release();
+            if (!err) {
+                let response= [];
+                let covered = {};
+                for(var i=0;i<rows.length;i++){
+                    let temp_invoice = rows[i].InvoiceNumber;
+                    if(covered[temp_invoice]!=1){
+                    covered[temp_invoice]=1;
+                    let invoice = []
+                    invoice.push({"invoice":temp_invoice});
+                    let products = [];
+                    products.push({"productId":rows[i].ProductID});
+                    for (var j=i+1;j<rows.length;j++){
+                        if(rows[j].InvoiceNumber == temp_invoice){
+                            products.push({"productId":rows[j].ProductID});
+                        }
+                    }
+                    invoice.push({"products":products});
+                    response.push(invoice);
+                    }
+                }
+            console.log(response);
+        }
+        });
+        connection.on('error', function(err) {
+            console.log("error: " + err);
+            res.send({
+                "statusCode": 100,
+                "status": "Error in connection database"
+            });
+        });
+    });
+
+}
 
 exports.logout = function(req,res){
 	if(req.session.email){

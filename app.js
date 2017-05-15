@@ -48,6 +48,7 @@ app.post('/logout',user.logout);
 app.get('/getProfile',user.getProfile);
 app.post('/saveProfile',user.saveProfile);
 app.post('/placeOrder',user.placeOrder);
+app.post('/myorders', user.myOrders);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
