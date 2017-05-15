@@ -222,6 +222,7 @@ exports.myOrders = function(req,res){
                     covered[temp_invoice]=1;
                     let invoice = []
                     let products = [];
+
                     products.push({"ProductID":rows[i].ProductID,"ProductName":rows[i].ProductName,"ProductPrice":rows[i].ProductPrice,
                         "quantity":rows[i].ProductsCount,"PurchaseDate":rows[i].PurchaseDate,"Category":rows[i].Category});
                     total += (rows[i].ProductPrice)*rows[i].ProductsCount;
