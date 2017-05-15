@@ -157,14 +157,28 @@ exports.saveProfile = function(req,res){
 
 exports.placeOrder = function(req,res){
 	console.log(req.session.email);
-	console.log(req.session.CustomerID);
-	console.log(req.session.AddressID);
 	console.log(req.param("products"));
+    let CustomerID = req.session.CustomerID;
+    let AddressID = req.session.AddressID;
 	var products = req.param("products");
+    let invoice = Math.floor(Math.random()*100);
+    let date = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
+    let values = [];
+    for(var i=0;i<products.length;i++){
+        let entry = []
+        entry.push(CustomerID);
+        entry.push(products[i]['ProductID']);
+        entry.push(1);
+        entry.push(AddressID);
+        entry.push(invoice);
+        entry.push(date);
+        values.push(entry);
+    }
+    console.log(values);
 	mysql.handle_database(function(connection) {
-		
-        connection.query("", [], function(err, rows) {
+        connection.query("INSERT INTO `order` (`CustomerId`,`ProductId`, `ProductsCount`, `AddressId`, `InvoiceNumber`, `PurchaseDate`) VALUES ?", [values], function(err, rows) {
             connection.release();
+            console.log(rows);
             if (!err) {
                 if (rows.length > 0) {
                     console.log("Placed order");
