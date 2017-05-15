@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src = "../js/libraries/angular-ui-router.min.js"></script>
+<script src="../js/libraries/ui-bootstrap-tpls-1.3.2.js"></script>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src = "../js/controllers/admin_login.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="admin_login"> 
+<nav class="navbar navbar-inverse navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">&nbsp;&nbsp;&nbsp;E-Store</a>
+                </div>
+              </div>
+            
+        </nav>
+<div class="container">
+  
+   <div style="text-align:center">
+<h1>Admin Login</h1> <br />
+</div>
+  <div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+   
+<input class="form-control input-lg" placeholder="username" type="text" ng-model = "username"/> <br/>
+<input class="form-control input-lg" placeholder="Password" type="password" ng-model = "password"/>
+ <br />
+ <br />
+ <div class=" text-center">
+            <button class="btn btn-primary" ng-click="submit()">LOGIN</button>
+          </div>
+    
+  
+  </div>
+  <div class="col-sm-4"></div>
+</div>
+ 
+	</div>
+</body>
+</html>
+ 

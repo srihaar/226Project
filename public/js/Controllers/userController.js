@@ -256,10 +256,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	    	views: {
 	    		"myOrders" : {
 
-	    			  templateUrl : "/myOrders",
+	    			  templateUrl : "/getOrdersTemplate",
 	    			  controller  : function($scope , $http, $state,$rootScope){
 	    				  
-	    				  $http.get("/viewOrders").success(function(data){
+	    				  $http.get("/myorders").success(function(data){
 	    					 $scope.orders = data;
 	    					 console.log($scope.orders);
 	    					  for(i=0;i<$scope.orders.length;i++){
@@ -311,27 +311,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	    			  templateUrl : "/checkout",
 	    			  controller  : function($scope , $http, $state,$rootScope){
 	    				  
-	    				  
-	    				  
-	    				  $scope.toggleMinDate = function() {
-	    					    var minDate = new Date();
-	    					    var maxDate = new Date();
-	    					    // set to yesterday
-	    					    minDate.setDate(minDate.getDate());
-	    					    maxDate.setDate(maxDate.getDate()+30);
-	    					    $scope.dateOptions.minDate = $scope.dateOptions.minDate ? null : minDate;
-	    					    $scope.dateOptions.maxDate = $scope.dateOptions.maxDate ? null : maxDate;
-	    					  };
-	    					  $scope.dateOptions = {
-	    							    showWeeks: false,
-	    							    startingDay: 0
-	    							  };
-	    					  
-	    					  $scope.toggleMinDate();  
+	    				    
 	    				  $rootScope.totalPrice = 0;
-	    				  //$scope.minDate = new Date();
-	    				  //$scope.dateOptions.minDate = new Date();
-	    				  //$scope.dateOptions.maxDate = $scope.dateOptions.minDate.setDate($scope.dateOptions.minDate.getDate() + 30);
 	    				  $scope.format = "dd-MMM-yyyy";
 	    				  for(i=0;i<$rootScope.cart.length;i++){
 	    					  $rootScope.totalPrice = $rootScope.totalPrice+($rootScope.cart[i].ProductPrice*$rootScope.cart[i].quantity);
@@ -366,7 +347,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	    							}
 	    						}).success(function(result) {
 	    							console.log(result);
-	    							if(result.statusCode == "200"){
+	    							if(result.statusCode == 200){
 	    								alert("Order placed Successfully");
 	    								$rootScope.cart =[];
 	    								$state.go("userHomeState");

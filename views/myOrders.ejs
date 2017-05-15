@@ -1,0 +1,69 @@
+ <div class="container">
+ 
+       <div class="card">
+            <div class="header">
+                <h4 class="title">My Orders</h4>
+                
+             </div>
+             <div ng-if = "orders.length == 0">No Orders to show</div>
+                 <div class="content">
+                    <div class="panel-group">
+                      <div class="row">
+                        <div class="col-md-12" ng-repeat="order in orders" style="padding-top:20px;">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h4 class="panel-title">
+                              <a ng-click = "order.isCollapsed = !order.isCollapsed">
+                                
+                                    <td>Invoice:&nbsp{{order[0].invoice}}
+                                    
+                                 
+                                
+                                </a>
+                              </h4>
+                             </div>
+                            <div collapse ="order.isCollapsed">
+                              <div ng-show="!order.isCollapsed" class="panel-body">
+                                
+                                  
+                                  <div class="row">
+                                   <div class="col-md-8">
+                                    <table class="table">
+   
+                                      <tbody>
+                                       <tr><td style="font-weight:bold;">Ordered Date:</td>
+                                          <td>{{order[1].products[0].PurchaseDate | limitTo:10}}</td>
+                                       </tr>
+                                    
+                                    <tr><td style="font-weight:bold;">Total Price:</td>
+                                    <td>{{order[0].TotalPrice | currency}}</td>
+                                    </tr>
+                                
+                                        <tr><td><span style="font-weight:bold;">Items in Your Order:</span></td></tr>
+                                        <tr ng-repeat="item in order[1].products">
+                                          
+                                          <td>{{item.ProductName}}</td>
+                                          <td>{{item.quantity}}&nbsp;count</td>
+                                          <td>{{item.Category}}</td>
+                                          <td>{{item.ProductPrice * item.quantity|currency}}</td>
+        
+                                        </tr>
+                                        <tr>
+                                       
+                                      </tbody>
+                                    </table>
+
+                                 </div>
+                                 </div>
+                              
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+  </div>
+</div>
+ 
+</div>

@@ -51,3 +51,19 @@ exports.profile = function(req,res){
 	}
 }
 
+exports.getOrdersTemplate = function(req,res){
+	if(req.session.email){
+		res.render('myOrders');
+	}else{
+		res.render('userLogin');
+	}
+}
+
+exports.adminLogin = function(req,res){
+		res.render('adminLogin');
+}
+
+exports.adminHome = function(req,res){
+	res.render('adminHome');
+}
+

@@ -167,7 +167,7 @@ exports.placeOrder = function(req,res){
         let entry = []
         entry.push(CustomerID);
         entry.push(products[i]['ProductID']);
-        entry.push(1);
+        entry.push(products[i]['quantity']);
         entry.push(AddressID);
         entry.push(invoice);
         entry.push(date);
@@ -208,30 +208,37 @@ exports.placeOrder = function(req,res){
 
 exports.myOrders = function(req,res){
     let CustomerID = req.session.CustomerID;
+    //let CustomerID = req.body.customer;
     mysql.handle_database(function(connection) {
-        connection.query("select * from `order` where `CustomerId` = ?", [CustomerID], function(err, rows) {
+        connection.query("select o.PurchaseDate,o.InvoiceNumber,o.ProductsCount,o.ProductID,p.ProductName,c.Category,p.ProductPrice from `order` o inner join product p on p.ProductID = o.ProductID inner join productcategory c on o.ProductID = c.ProductID where o.CustomerID =?", [CustomerID], function(err, rows) {
             connection.release();
             if (!err) {
                 let response= [];
                 let covered = {};
                 for(var i=0;i<rows.length;i++){
                     let temp_invoice = rows[i].InvoiceNumber;
+                    let total = 0;
                     if(covered[temp_invoice]!=1){
                     covered[temp_invoice]=1;
                     let invoice = []
-                    invoice.push({"invoice":temp_invoice});
                     let products = [];
-                    products.push({"productId":rows[i].ProductID});
+                    products.push({"ProductID":rows[i].ProductID,"ProductName":rows[i].ProductName,"ProductPrice":rows[i].ProductPrice,
+                        "quantity":rows[i].ProductsCount,"PurchaseDate":rows[i].PurchaseDate,"Category":rows[i].Category});
+                    total += (rows[i].ProductPrice)*rows[i].ProductsCount;
                     for (var j=i+1;j<rows.length;j++){
                         if(rows[j].InvoiceNumber == temp_invoice){
-                            products.push({"productId":rows[j].ProductID});
+                        	products.push({"ProductID":rows[j].ProductID,"ProductName":rows[j].ProductName,"ProductPrice":rows[j].ProductPrice,
+                                "quantity":rows[j].ProductsCount,"PurchaseDate":rows[j].PurchaseDate,"Category":rows[j].Category});
+                            total += (rows[j].ProductPrice)*rows[j].ProductsCount;
                         }
                     }
+                    invoice.push({"invoice":temp_invoice,"TotalPrice":total});
                     invoice.push({"products":products});
                     response.push(invoice);
                     }
                 }
             console.log(response);
+            res.send(response);
         }
         });
         connection.on('error', function(err) {
