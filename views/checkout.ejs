@@ -1,0 +1,71 @@
+
+ 
+<div class="container">
+ <div class="row">
+   <div class="col-md-12">
+  <div class="card">
+      <div class="header">
+          <h4 class="title">CheckOut</h4>
+      </div>
+      <div class="content">
+        
+          <table class="table">
+             <thead>
+               <tr>
+                 <th>Product Name</th>
+                 <th>Price</th>
+                 <th>Quantity</th>
+                 <th>Vendor Name</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr ng-repeat = "item in cart">
+                 <td>{{item.ProductName}}</td>
+                 <td>{{item.ProductPrice * item.quantity | currency}}</td>
+                 <td>
+                    <select  ng-model="item.quantity" ng-options="value for value in values" ng-disabled="true">
+                    
+                   </select>
+                 </td>
+                 <td>
+                  {{item.Name}}
+                 </td>
+                 
+               </tr>
+               
+                 
+               
+               <tr>
+                 <td>
+                  <a ng-click="goBack()">Click here to modify Cart</a>
+                 </td>
+                 
+                 <td>
+                   Total Price:
+                 </td>
+                 <td>
+                   {{totalPrice|currency}}
+                 </td>
+               </tr>
+             </tbody>
+          </table>
+          
+      </div>
+  </div>
+  </div>
+  </div>
+
+   <div class="row">
+   <div class="card">
+     <div class="header">
+     </div>
+     <div class="content">
+        <div align="center">
+          <button class="btn btn-success btn-md" ng-click="placeOrder()">Place Order</button>
+          <button class="btn btn-danger btn-md" ng-click="cancelOrder()">Cancel Order</button>
+        </div>
+
+     </div>
+    </div>
+  </div>
+</div>
