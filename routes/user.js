@@ -179,14 +179,8 @@ exports.placeOrder = function(req,res){
             connection.release();
             console.log(rows);
             if (!err) {
-                if (rows.length > 0) {
                     console.log("Placed order");
                             res.send({"statusCode":200});
-                } else {
-                    res.send({
-                        "statusCode": 404
-                    });
-                }
             } else {
                 res.send({
                     "statusCode": 100,
